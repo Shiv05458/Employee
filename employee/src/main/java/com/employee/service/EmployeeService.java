@@ -1,5 +1,6 @@
 package com.employee.service;
 
+import com.employee.model.DbSequence;
 import com.employee.model.Employee;
 import com.employee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -19,8 +19,12 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository repository;
 
+    @Autowired
+    private SequenceGenerator sequenceGenerator;
+
 
     public Employee createEmployee(Employee employee){
+        employee.setId(sequenceGenerator.getSequence(DbSequence.SEQUENCE_NAME));
         return repository.save(employee);
     }
 
